@@ -11,10 +11,10 @@ import (
 
 // Struct to match the backend's data format
 type SensorData struct {
-	SensorValue int       `json:"sensor_value"`
-	ID1         int       `json:"id1"`
-	ID2         string    `json:"id2"`
-	Timestamp   time.Time `json:"timestamp"`
+	SensorValue int    `json:"sensor_value"`
+	ID1         int    `json:"id1"`
+	ID2         string `json:"id2"`
+	Timestamp   string `json:"timestamp"` 
 }
 
 // Function to generate random sensor data
@@ -23,7 +23,7 @@ func generateRandomData() SensorData {
 		SensorValue: rand.Intn(100),
 		ID1:         rand.Intn(3) + 1,
 		ID2:         string('A' + byte(rand.Intn(2))),
-		Timestamp:   time.Now(),
+		Timestamp:   time.Now().Format("Mon 01/02/2006-15:04:05"), 
 	}
 }
 
@@ -41,15 +41,15 @@ func sendDataToServer(data SensorData) {
 }
 
 func main() {
-    rand.Seed(time.Now().Unix())
-    duration := 30 * time.Second // Set execution time
-    endTime := time.Now().Add(duration)
+	rand.Seed(time.Now().Unix())
+	duration := 30 * time.Second 
+	endTime := time.Now().Add(duration)
 
-    for time.Now().Before(endTime) {
-        data := generateRandomData()
-        sendDataToServer(data)
-        time.Sleep(1 * time.Second)
-    }
+	for time.Now().Before(endTime) {
+		data := generateRandomData()
+		sendDataToServer(data)
+		time.Sleep(1 * time.Second)
+	}
 
-    fmt.Println("Execution completed after", duration)
+	fmt.Println("Execution completed after", duration)
 }
